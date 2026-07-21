@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #FFFDF8;
+    color: #334155;
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    color: #1E293B;
+    font-weight: 800;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold transition-transform duration-200;
+  }
+  .btn-primary {
+    @apply bg-[#8B5CF6] text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-500/20;
+  }
+  .btn-secondary {
+    @apply bg-[#10B981] text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-500/20;
+  }
+  .btn-outline {
+    @apply bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:-translate-y-0.5 hover:shadow-sm;
+  }
+  .friendly-card {
+    @apply bg-white overflow-hidden transition-transform duration-300;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.04), 0 4px 10px -4px rgba(0,0,0,0.02);
+  }
+  .friendly-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.06), 0 4px 10px -4px rgba(0,0,0,0.02);
+  }
+  .friendly-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold bg-white text-[#8B5CF6];
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+}
+
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(255, 253, 248, 0) 60%);
+  z-index: 0;
+  pointer-events: none;
+}

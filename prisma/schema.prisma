@@ -1,0 +1,190 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  phone         String         @unique
+  email         String?        @unique
+  password      String?
+  name          String?
+  bio           String?
+  avatar        String?
+  role          String         @default("STUDENT") // STUDENT, INSTRUCTOR, ADMIN
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  courses       Course[]       @relation("InstructorCourses")
+  enrollments   Enrollment[]
+  payments      Payment[]
+  certificates  Certificate[]
+  reviews       Review[]
+  attendances   Attendance[]
+  notifications Notification[]
+}
+
+model Course {
+  id               String         @id @default(uuid())
+  title            String
+  description      String
+  shortDescription String?
+  thumbnail        String?
+  goals            String?        // JSON string array
+  requirements     String?        // JSON string array
+  targetAudience   String?        // JSON string array
+  syllabus         String?        // JSON representation of curriculum
+  instructorId     String
+  instructor       User           @relation("InstructorCourses", fields: [instructorId], references: [id])
+  startDate        DateTime
+  durationWeeks    Int
+  totalHours       Int            @default(0)
+  maxStudents      Int?
+  registrationEnd  DateTime
+  price            Float
+  refundPolicyDays Int            @default(0) // 0 means no refund
+  status           String         @default("DRAFT") // OPEN, CLOSED, STARTING_SOON, IN_PROGRESS, ENDED, CANCELLED
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  lectures         Lecture[]
+  enrollments      Enrollment[]
+  quizzes          Quiz[]
+  files            File[]
+  coupons          Coupon[]
+  reviews          Review[]
+}
+
+model Lecture {
+  id          String   @id @default(uuid())
+  title       String
+  type        String   @default("RECORDED") // LIVE, RECORDED
+  liveStatus  String   @default("SCHEDULED") // SCHEDULED, LIVE, ENDED
+  videoUrl    String?  // Mux/HLS URL or Signed URL
+  liveUrl     String?  // Zoom/Meet URL
+  date        DateTime?
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id])
+  createdAt   DateTime @default(now())
+  attendances Attendance[]
+}
+
+model File {
+  id          String   @id @default(uuid())
+  title       String
+  fileUrl     String
+  type        String   // PDF, IMAGE, CODE, ZIP
+  accessType  String   @default("DOWNLOAD") // DOWNLOAD, VIEW_ONLY
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Enrollment {
+  id        String   @id @default(uuid())
+  studentId String
+  courseId  String
+  student   User     @relation(fields: [studentId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([studentId, courseId])
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  studentId     String
+  student       User     @relation(fields: [studentId], references: [id])
+  amount        Float
+  paymentMethod String   // "VISA", "PAYPAL", "CRYPTO"
+  status        String   // "PENDING", "COMPLETED", "FAILED"
+  couponCode    String?
+  createdAt     DateTime @default(now())
+}
+
+model Quiz {
+  id                String         @id @default(uuid())
+  title             String
+  startDate         DateTime?
+  endDate           DateTime?
+  durationMinutes   Int?
+  attemptsAllowed   Int            @default(1)
+  passingScore      Float          @default(50.0)
+  randomizeQuestions Boolean       @default(false)
+  showResults       Boolean        @default(true)
+  courseId          String
+  course            Course         @relation(fields: [courseId], references: [id])
+  questions         QuizQuestion[]
+  createdAt         DateTime       @default(now())
+}
+
+model QuizQuestion {
+  id        String   @id @default(uuid())
+  quizId    String
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  question  String
+  type      String   @default("MCQ") // MCQ, TRUE_FALSE, ESSAY
+  options   String?  // JSON string of options
+  answer    String   // Correct answer (or null for essay)
+}
+
+model Certificate {
+  id             String   @id @default(uuid()) // Unique verification code
+  qrCodeUrl      String?  
+  studentId      String
+  student        User     @relation(fields: [studentId], references: [id])
+  courseName     String
+  instructorName String?
+  issuedAt       DateTime @default(now())
+}
+
+model Coupon {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  type        String   // PERCENT, FIXED
+  value       Float
+  expiryDate  DateTime?
+  maxUses     Int?
+  usesCount   Int      @default(0)
+  courseId    String?  // If null, applies to all courses
+  course      Course?  @relation(fields: [courseId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  studentId   String
+  courseId    String
+  rating      Int      // 1 to 5
+  comment     String?
+  isApproved  Boolean  @default(false) // Needs Admin/Instructor approval
+  student     User     @relation(fields: [studentId], references: [id])
+  course      Course   @relation(fields: [courseId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Attendance {
+  id              String   @id @default(uuid())
+  studentId       String
+  lectureId       String
+  joinTime        DateTime
+  leaveTime       DateTime?
+  durationMinutes Int      @default(0)
+  percentage      Float    @default(0.0)
+  student         User     @relation(fields: [studentId], references: [id])
+  lecture         Lecture  @relation(fields: [lectureId], references: [id])
+  createdAt       DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  message   String
+  type      String   // INFO, SUCCESS, WARNING
+  isRead    Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
