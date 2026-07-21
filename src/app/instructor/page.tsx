@@ -72,7 +72,7 @@ export default async function InstructorDashboard() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '3rem', lg: { gridTemplateColumns: '2fr 1fr' } }}>
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-12">
         
         {/* Main Content Area (Recent Courses Table) */}
         <div className="saas-card" style={{ padding: '2rem' }}>

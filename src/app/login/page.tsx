@@ -23,7 +23,9 @@ export default function LoginPage() {
       setError(res.error);
       setLoading(false);
     } else {
-      router.push(res.redirect || '/');
+      if (res.role === 'INSTRUCTOR') router.push('/instructor');
+      else if (res.role === 'ADMIN') router.push('/admin');
+      else router.push('/student');
     }
   };
 

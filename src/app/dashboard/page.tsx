@@ -11,8 +11,8 @@ export default async function Dashboard() {
   }
 
   // Fetch data based on role
-  let studentEnrollments = [];
-  let instructorCourses = [];
+  let studentEnrollments: any[] = [];
+  let instructorCourses: any[] = [];
   
   if (user.role === 'STUDENT' || user.role === 'ADMIN') {
     studentEnrollments = await prisma.enrollment.findMany({

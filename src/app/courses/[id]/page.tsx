@@ -20,7 +20,7 @@ export default async function CourseDetailsPage({ params }: { params: { id: stri
   const dynamicStatus = getDynamicCourseStatus(course);
   const seatsTaken = course.enrollments.length;
   const rating = course.reviews.length > 0 ? (course.reviews.reduce((a,b)=>a+b.rating,0)/course.reviews.length).toFixed(1) : 'جديد';
-  const totalHours = course.lectures.reduce((acc, l) => acc + l.durationMins, 0) / 60;
+  const totalHours = course.totalHours;
 
   return (
     <div style={{ background: 'var(--background)', minHeight: '100vh', paddingBottom: '6rem' }}>
@@ -131,11 +131,11 @@ export default async function CourseDetailsPage({ params }: { params: { id: stri
                       <div>
                         <h4 style={{ fontSize: '1.1rem', marginBottom: '0.25rem' }}>{l.title}</h4>
                         <div style={{ fontSize: '0.85rem', color: 'var(--muted-foreground)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <Calendar size={14} /> {l.scheduledAt.toLocaleString('ar-EG')}
+                          <Calendar size={14} /> {l.date ? l.date.toLocaleString('ar-EG') : 'غير محدد'}
                         </div>
                       </div>
                     </div>
-                    <div className="badge badge-accent"><MonitorPlay size={14} /> {l.durationMins} دقيقة</div>
+                    <div className="badge badge-accent"><MonitorPlay size={14} /> {l.type === 'LIVE' ? 'مباشر' : 'مسجل'}</div>
                   </div>
                 ))
               )}

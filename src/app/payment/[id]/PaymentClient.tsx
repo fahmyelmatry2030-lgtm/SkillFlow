@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { CreditCard, Wallet, Bitcoin, Lock } from 'lucide-react';
-import { processPaymentAction } from '@/actions/payment';
+import { processPayment } from '@/actions/payment';
 import { Course } from '@prisma/client';
 
 export default function PaymentClient({ course }: { course: Course }) {
@@ -13,7 +13,7 @@ export default function PaymentClient({ course }: { course: Course }) {
     setLoading(true);
     setError('');
     
-    const result = await processPaymentAction(course.id, course.price, paymentMethod);
+    const result = await processPayment(course.id, course.price, paymentMethod);
     
     if (result.error) {
       setError(result.error);
