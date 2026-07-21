@@ -43,7 +43,7 @@ export async function registerAction(formData: FormData) {
     });
 
     // Automatically log in after registration
-    setAuthCookie(user.id);
+    await setAuthCookie(user.id);
     return { success: true };
   } catch (error) {
     console.error('Registration Error:', error);
@@ -73,7 +73,7 @@ export async function loginWithPasswordAction(formData: FormData) {
       return { error: 'بيانات الدخول غير صحيحة.' };
     }
 
-    setAuthCookie(user.id);
+    await setAuthCookie(user.id);
     return { success: true, role: user.role };
   } catch (error) {
     console.error('Login Error:', error);
@@ -81,8 +81,9 @@ export async function loginWithPasswordAction(formData: FormData) {
   }
 }
 
-function setAuthCookie(userId: string) {
-  cookies().set('userId', userId, {
+async function setAuthCookie(userId: string) {
+  const cookieStore = await cookies();
+  cookieStore.set('userId', userId, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -92,12 +93,14 @@ function setAuthCookie(userId: string) {
 }
 
 export async function logoutAction() {
-  cookies().delete('userId');
+  const cookieStore = await cookies();
+  cookieStore.delete('userId');
   redirect('/login');
 }
 
 export async function getUser() {
-  const userId = cookies().get('userId')?.value;
+  const cookieStore = await cookies();
+  const userId = cookieStore.get('userId')?.value;
   if (!userId) return null;
 
   try {

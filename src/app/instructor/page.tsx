@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { BookOpen, Users, DollarSign, Star, MoreVertical, Plus } from 'lucide-react';
 
 export default async function InstructorDashboard() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const userId = cookieStore.get('userId')?.value;
 
   const myCourses = await prisma.course.findMany({

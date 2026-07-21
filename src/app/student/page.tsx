@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { BookOpen, ShieldCheck, PlayCircle, Star, ArrowLeft, Clock, TrendingUp, Award } from 'lucide-react';
 
 export default async function StudentDashboard() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const userId = cookieStore.get('userId')?.value;
 
   const enrollments = await prisma.enrollment.findMany({

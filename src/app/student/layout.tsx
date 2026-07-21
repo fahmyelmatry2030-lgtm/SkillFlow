@@ -10,7 +10,7 @@ export default async function StudentLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const userId = cookieStore.get('userId')?.value;
 
   if (!userId) {
