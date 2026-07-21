@@ -11,7 +11,7 @@ export default async function CourseDetailsPage({ params }: { params: { id: stri
       instructor: true,
       enrollments: true,
       reviews: { include: { student: true } },
-      lectures: { orderBy: { order: 'asc' } }
+      lectures: { orderBy: { createdAt: 'asc' } }
     }
   });
 
