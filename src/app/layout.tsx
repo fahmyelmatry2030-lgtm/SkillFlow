@@ -27,9 +27,16 @@ export default function RootLayout({
               <div className="flex-shrink-0">
                 <Link href="/" className="flex items-center gap-2 text-slate-800 font-bold text-2xl">
                   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="20" cy="20" r="20" fill="#E0E7FF"/>
-                    <path d="M20 10C14.477 10 10 14.477 10 20C10 25.523 14.477 30 20 30C25.523 30 30 25.523 30 20" stroke="#8B5CF6" strokeWidth="3" strokeLinecap="round"/>
-                    <circle cx="20" cy="20" r="4" fill="#10B981"/>
+                    <rect width="40" height="40" rx="10" fill="url(#paint0_linear_logo)"/>
+                    <path d="M20 10L8 16L20 22L32 16L20 10Z" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8 24L20 30L32 24" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8 16L20 22L32 16" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <defs>
+                      <linearGradient id="paint0_linear_logo" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#8B5CF6"/>
+                        <stop offset="1" stopColor="#3B82F6"/>
+                      </linearGradient>
+                    </defs>
                   </svg>
                   المنصة
                 </Link>
@@ -65,9 +72,16 @@ export default function RootLayout({
               <div>
                 <Link href="/" className="flex items-center gap-2 text-slate-800 font-bold text-2xl mb-6">
                   <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="20" cy="20" r="20" fill="#E0E7FF"/>
-                    <path d="M20 10C14.477 10 10 14.477 10 20C10 25.523 14.477 30 20 30C25.523 30 30 25.523 30 20" stroke="#8B5CF6" strokeWidth="3" strokeLinecap="round"/>
-                    <circle cx="20" cy="20" r="4" fill="#10B981"/>
+                    <rect width="40" height="40" rx="10" fill="url(#paint0_linear_logo_footer)"/>
+                    <path d="M20 10L8 16L20 22L32 16L20 10Z" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8 24L20 30L32 24" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8 16L20 22L32 16" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <defs>
+                      <linearGradient id="paint0_linear_logo_footer" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#8B5CF6"/>
+                        <stop offset="1" stopColor="#3B82F6"/>
+                      </linearGradient>
+                    </defs>
                   </svg>
                   المنصة
                 </Link>
